@@ -7,6 +7,11 @@ import (
 )
 
 func main() {
+	if len(os.Args) <= 1 {
+		fmt.Print("Missing argmuent\n")
+		return
+	}
+
 	t := tournament.NewTournament(len(os.Args))
 
 	for _,element := range os.Args[1:] {
