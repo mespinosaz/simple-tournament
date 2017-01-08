@@ -4,19 +4,23 @@ import (
 	"github.com/mespinosaz/tournament/stack"
 	"github.com/mespinosaz/tournament/tournament/combat"
 	"fmt"
+	"runtime"
+	"sync"
+	"math"
 )
 
 type Tournament interface {
 	Add(m string) int
-	Solve() interface{}
+	Solve() string
 }
 
 type tournament struct {
-	members stack.Stack
+	members stack.StringStack
+	round int
 }
 
 func NewTournament() Tournament {
-	return &tournament{members: stack.NewStack()}
+	return &tournament{members: stack.NewStack(), round: 1}
 }
 
 func (t *tournament) Add(m string) int {
@@ -25,22 +29,61 @@ func (t *tournament) Add(m string) int {
 	return t.members.Size()
 }
 
-func (t *tournament) Solve() interface{} {
-	if t.members.Size() <= 1 {
-		return t.members.Pop()
+func (t *tournament) Solve() string {
+	n := t.members.Size()
+
+	if n <= 1 {
+		w,_ := t.members.Pop()
+		return w
 	}
 
-	var result stack.Stack = stack.NewStack();
+	runtime.GOMAXPROCS(100)
 
-	fmt.Print(t.members);
+	var wg sync.WaitGroup
 
-	for t.members.Size() > 0 {
-		c := combat.NewCombat(t.members.Pop(), t.members.Pop())
-		result.Push(c.Solve())
+	wg.Add(int(math.Ceil(float64(n)/2)))
+
+	var result stack.StringStack = stack.NewStack();
+
+	fmt.Printf("ROUND %d\n", t.round)
+	fmt.Print("==========\n")
+
+	for n > 0 {
+		go func() {
+			defer wg.Done()
+			result.Push(t.ProcessMembersPair())
+		}()
+		n -= 2
 	}
+
+	wg.Wait()
 
 	t.members = result
 
+	t.round += 1
+
+	fmt.Print("==========\n")
+
 	return t.Solve()
 
+}
+
+func (t *tournament) ProcessMembersPair() string {
+	m1,err1 := t.members.Pop()
+	m2,err2 := t.members.Pop()
+
+	if err1 != nil {
+		return m2
+	}
+
+	if err2 != nil {
+		return m1
+	}
+
+	c := combat.NewCombat(m1, m2)
+	w := c.Solve()
+
+	fmt.Printf("%s VS %s. Winner is %s\n", m1, m2, w)
+
+	return w
 }

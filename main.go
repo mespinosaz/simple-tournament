@@ -13,5 +13,5 @@ func main() {
 		t.Add(element)
 	}
 
-	fmt.Print(t.Solve())
+	fmt.Printf("\nTournament winners is ... %s!!!!\n\n", t.Solve())
 }

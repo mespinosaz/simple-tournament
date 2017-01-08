@@ -1,38 +1,40 @@
 package stack
 
-type Stack interface {
-	Pop() interface{}
-	Push(e interface{}) interface{}
+import "errors"
+
+type StringStack interface {
+	Pop() (string, error)
+	Push(e string) interface{}
 	Size() int
 }
 
-type stack struct {
-	elements []interface{}
+type stringStack struct {
+	elements []string
 }
 
 
-func NewStack() Stack {
-	return &stack{}
+func NewStack() StringStack {
+	return &stringStack{}
 }
 
-func (s *stack) Pop() interface{} {
+func (s *stringStack) Pop() (string, error) {
 	if len(s.elements) == 0 {
-		return nil
+		return "", errors.New("No elements")
 	}
 
 	value := s.elements[len(s.elements)-1]
 
 	s.elements = s.elements[:len(s.elements)-1]
 
-	return value
+	return value, nil
 }
 
-func (s *stack) Push(e interface{}) interface{} {
+func (s *stringStack) Push(e string) interface{} {
 	s.elements = append(s.elements, e)
 
 	return nil
 }
 
-func (s *stack) Size() int {
+func (s *stringStack) Size() int {
 	return len(s.elements)
 }

@@ -6,31 +6,19 @@ import (
 )
 
 type Combat interface {
-	Solve() interface{}
+	Solve() string
 }
 
 type combat struct {
-	p1 interface{}
-	p2 interface{}
+	p1 string
+	p2 string
 }
 
-func NewCombat(p1, p2 interface{}) Combat {
+func NewCombat(p1, p2 string) Combat {
 	return &combat{p1: p1, p2: p2}
 }
 
-func (c *combat) Solve() interface{} {
-	if c.p1 == nil {
-		return c.p2
-	}
-
-	if c.p2 == nil {
-		return c.p1
-	}
-
-	return c.DecideWinner()
-}
-
-func (c *combat) DecideWinner() interface{} {
+func (c *combat) Solve() string {
 	rand.Seed(time.Now().UnixNano())
 	n := rand.Intn(2);
 
