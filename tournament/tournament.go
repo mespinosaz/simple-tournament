@@ -19,7 +19,9 @@ type tournament struct {
 	round int
 }
 
-func NewTournament() Tournament {
+func NewTournament(n int) Tournament {
+	runtime.GOMAXPROCS(n)
+
 	return &tournament{members: stack.NewStack(), round: 1}
 }
 
@@ -36,8 +38,6 @@ func (t *tournament) Solve() string {
 		w,_ := t.members.Pop()
 		return w
 	}
-
-	runtime.GOMAXPROCS(100)
 
 	var wg sync.WaitGroup
 

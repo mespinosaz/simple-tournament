@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	t := tournament.NewTournament()
+	t := tournament.NewTournament(len(os.Args))
 
 	for _,element := range os.Args[1:] {
 		t.Add(element)
