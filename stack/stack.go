@@ -12,9 +12,8 @@ type StringStack interface {
 }
 
 type stringStack struct {
-	elements  []string
-	writeLock sync.Mutex
-	readLock sync.Mutex
+	elements []string
+	lock     sync.Mutex
 }
 
 
@@ -23,8 +22,8 @@ func NewStack() StringStack {
 }
 
 func (s *stringStack) Pop() (string, error) {
-	defer s.writeLock.Unlock()
-	s.writeLock.Lock()
+	defer s.lock.Unlock()
+	s.lock.Lock()
 	if len(s.elements) == 0 {
 		return "", errors.New("No elements")
 	}
@@ -37,8 +36,8 @@ func (s *stringStack) Pop() (string, error) {
 }
 
 func (s *stringStack) Push(e string) interface{} {
-	defer s.readLock.Unlock()
-	s.readLock.Lock()
+	defer s.lock.Unlock()
+	s.lock.Lock()
 	s.elements = append(s.elements, e)
 
 	return nil
