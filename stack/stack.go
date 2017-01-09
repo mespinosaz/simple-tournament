@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+// StringStack Stack of Strings
 type StringStack interface {
 	Pop() (string, error)
 	Push(e string) interface{}
@@ -16,7 +17,8 @@ type stringStack struct {
 	lock     sync.Mutex
 }
 
-func NewStack() StringStack {
+// NewStringStack ...
+func NewStringStack() StringStack {
 	return &stringStack{}
 }
 

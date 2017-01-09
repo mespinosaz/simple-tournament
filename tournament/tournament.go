@@ -9,6 +9,7 @@ import (
 	"sync"
 )
 
+// Tournament of n participants
 type Tournament interface {
 	Add(m string) int
 	Solve() string
@@ -19,10 +20,11 @@ type tournament struct {
 	round   int
 }
 
+// NewTournament ...
 func NewTournament(n int) Tournament {
 	runtime.GOMAXPROCS(n)
 
-	return &tournament{members: stack.NewStack(), round: 1}
+	return &tournament{members: stack.NewStringStack(), round: 1}
 }
 
 func (t *tournament) Add(m string) int {
@@ -43,7 +45,7 @@ func (t *tournament) Solve() string {
 
 	wg.Add(int(math.Ceil(float64(n) / 2)))
 
-	var result stack.StringStack = stack.NewStack()
+	var result = stack.NewStringStack()
 
 	fmt.Printf("ROUND %d\n", t.round)
 	fmt.Print("==========\n")
@@ -60,7 +62,7 @@ func (t *tournament) Solve() string {
 
 	t.members = result
 
-	t.round += 1
+	t.round++
 
 	fmt.Print("==========\n")
 

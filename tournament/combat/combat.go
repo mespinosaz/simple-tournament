@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Combat of two participants
 type Combat interface {
 	Solve() string
 }
@@ -14,6 +15,7 @@ type combat struct {
 	p2 string
 }
 
+// NewCombat ...
 func NewCombat(p1, p2 string) Combat {
 	return &combat{p1: p1, p2: p2}
 }
