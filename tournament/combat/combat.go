@@ -20,7 +20,7 @@ func NewCombat(p1, p2 string) Combat {
 
 func (c *combat) Solve() string {
 	rand.Seed(time.Now().UnixNano())
-	n := rand.Intn(2);
+	n := rand.Intn(2)
 
 	if n == 0 {
 		return c.p1

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mespinosaz/tournament/tournament"
 	"fmt"
+	"github.com/mespinosaz/tournament/tournament"
 	"os"
 )
 
@@ -14,7 +14,7 @@ func main() {
 
 	t := tournament.NewTournament(len(os.Args))
 
-	for _,element := range os.Args[1:] {
+	for _, element := range os.Args[1:] {
 		t.Add(element)
 	}
 

@@ -1,12 +1,12 @@
 package tournament
 
 import (
+	"fmt"
 	"github.com/mespinosaz/tournament/stack"
 	"github.com/mespinosaz/tournament/tournament/combat"
-	"fmt"
+	"math"
 	"runtime"
 	"sync"
-	"math"
 )
 
 type Tournament interface {
@@ -16,7 +16,7 @@ type Tournament interface {
 
 type tournament struct {
 	members stack.StringStack
-	round int
+	round   int
 }
 
 func NewTournament(n int) Tournament {
@@ -35,15 +35,15 @@ func (t *tournament) Solve() string {
 	n := t.members.Size()
 
 	if n <= 1 {
-		w,_ := t.members.Pop()
+		w, _ := t.members.Pop()
 		return w
 	}
 
 	var wg sync.WaitGroup
 
-	wg.Add(int(math.Ceil(float64(n)/2)))
+	wg.Add(int(math.Ceil(float64(n) / 2)))
 
-	var result stack.StringStack = stack.NewStack();
+	var result stack.StringStack = stack.NewStack()
 
 	fmt.Printf("ROUND %d\n", t.round)
 	fmt.Print("==========\n")
@@ -69,8 +69,8 @@ func (t *tournament) Solve() string {
 }
 
 func (t *tournament) ProcessMembersPair() string {
-	m1,err1 := t.members.Pop()
-	m2,err2 := t.members.Pop()
+	m1, err1 := t.members.Pop()
+	m2, err2 := t.members.Pop()
 
 	if err1 != nil {
 		return m2

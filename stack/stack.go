@@ -16,7 +16,6 @@ type stringStack struct {
 	lock     sync.Mutex
 }
 
-
 func NewStack() StringStack {
 	return &stringStack{}
 }
