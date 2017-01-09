@@ -53,7 +53,7 @@ func (t *tournament) Solve() string {
 	for n > 0 {
 		go func() {
 			defer wg.Done()
-			result.Push(t.ProcessMembersPair())
+			result.Push(t.processMembersPair())
 		}()
 		n -= 2
 	}
@@ -70,7 +70,7 @@ func (t *tournament) Solve() string {
 
 }
 
-func (t *tournament) ProcessMembersPair() string {
+func (t *tournament) processMembersPair() string {
 	m1, err1 := t.members.Pop()
 	m2, err2 := t.members.Pop()
 
