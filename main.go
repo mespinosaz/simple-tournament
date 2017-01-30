@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/mespinosaz/tournament/tournament"
 	"os"
+
+	"github.com/mespinosaz/tournament/tournament"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 
 	go t.Solve()
 
-	w := <- ch
+	w := <-ch
 
 	fmt.Printf("\nTournament winners is ... %s!!!!\n\n", w)
 }

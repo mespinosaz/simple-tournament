@@ -2,10 +2,11 @@ package tournament
 
 import (
 	"fmt"
-	"github.com/mespinosaz/tournament/stack"
-	"github.com/mespinosaz/tournament/tournament/combat"
 	"math"
 	"sync"
+
+	"github.com/mespinosaz/tournament/stack"
+	"github.com/mespinosaz/tournament/tournament/combat"
 )
 
 // Tournament of n participants
@@ -17,7 +18,7 @@ type Tournament interface {
 type tournament struct {
 	members stack.StringStack
 	round   int
-	ch 	chan string
+	ch      chan string
 }
 
 // NewTournament ...
