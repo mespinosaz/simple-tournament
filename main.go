@@ -12,11 +12,17 @@ func main() {
 		return
 	}
 
-	t := tournament.NewTournament(len(os.Args))
+	ch := make(chan string)
+
+	t := tournament.NewTournament(len(os.Args), ch)
 
 	for _, element := range os.Args[1:] {
 		t.Add(element)
 	}
 
-	fmt.Printf("\nTournament winners is ... %s!!!!\n\n", t.Solve())
+	go t.Solve()
+
+	w := <- ch
+
+	fmt.Printf("\nTournament winners is ... %s!!!!\n\n", w)
 }

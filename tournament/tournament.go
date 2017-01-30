@@ -12,19 +12,20 @@ import (
 // Tournament of n participants
 type Tournament interface {
 	Add(m string) int
-	Solve() string
+	Solve() interface{}
 }
 
 type tournament struct {
 	members stack.StringStack
 	round   int
+	ch 	chan string
 }
 
 // NewTournament ...
-func NewTournament(n int) Tournament {
+func NewTournament(n int, ch chan string) Tournament {
 	runtime.GOMAXPROCS(n)
 
-	return &tournament{members: stack.NewStringStack(), round: 1}
+	return &tournament{members: stack.NewStringStack(), round: 1, ch: ch}
 }
 
 func (t *tournament) Add(m string) int {
@@ -33,12 +34,13 @@ func (t *tournament) Add(m string) int {
 	return t.members.Size()
 }
 
-func (t *tournament) Solve() string {
+func (t *tournament) Solve() interface{} {
 	n := t.members.Size()
 
 	if n <= 1 {
 		w, _ := t.members.Pop()
-		return w
+		t.ch <- w
+		return nil
 	}
 
 	var wg sync.WaitGroup
@@ -66,8 +68,9 @@ func (t *tournament) Solve() string {
 
 	fmt.Print("==========\n")
 
-	return t.Solve()
+	t.Solve()
 
+	return nil
 }
 
 func (t *tournament) processMembersPair() string {
