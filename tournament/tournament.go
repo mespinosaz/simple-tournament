@@ -5,7 +5,6 @@ import (
 	"github.com/mespinosaz/tournament/stack"
 	"github.com/mespinosaz/tournament/tournament/combat"
 	"math"
-	"runtime"
 	"sync"
 )
 
@@ -22,9 +21,7 @@ type tournament struct {
 }
 
 // NewTournament ...
-func NewTournament(n int, ch chan string) Tournament {
-	runtime.GOMAXPROCS(n)
-
+func NewTournament(ch chan string) Tournament {
 	return &tournament{members: stack.NewStringStack(), round: 1, ch: ch}
 }
 

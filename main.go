@@ -14,7 +14,7 @@ func main() {
 
 	ch := make(chan string)
 
-	t := tournament.NewTournament(len(os.Args), ch)
+	t := tournament.NewTournament(ch)
 
 	for _, element := range os.Args[1:] {
 		t.Add(element)
