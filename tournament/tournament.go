@@ -10,7 +10,7 @@ import (
 
 // Tournament of n participants
 type Tournament interface {
-	Add(m string) int
+	Add(m string) interface{}
 	Solve() interface{}
 }
 
@@ -25,10 +25,10 @@ func NewTournament(ch chan string) Tournament {
 	return &tournament{members: stack.NewStringStack(), round: 1, ch: ch}
 }
 
-func (t *tournament) Add(m string) int {
+func (t *tournament) Add(m string) interface{} {
 	t.members.Push(m)
 
-	return t.members.Size()
+	return nil
 }
 
 func (t *tournament) Solve() interface{} {
