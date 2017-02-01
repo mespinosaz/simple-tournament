@@ -2,6 +2,7 @@ package tournament
 
 import (
 	"fmt"
+
 	"math"
 	"sync"
 
@@ -11,8 +12,8 @@ import (
 
 // Tournament of n participants
 type Tournament interface {
-	Add(m string) interface{}
-	Solve() interface{}
+	Add(m string)
+	Solve()
 }
 
 type tournament struct {
@@ -26,19 +27,17 @@ func NewTournament(ch chan string) Tournament {
 	return &tournament{members: stack.NewStringStack(), round: 1, ch: ch}
 }
 
-func (t *tournament) Add(m string) interface{} {
+func (t *tournament) Add(m string) {
 	t.members.Push(m)
-
-	return nil
 }
 
-func (t *tournament) Solve() interface{} {
+func (t *tournament) Solve() {
 	n := t.members.Size()
 
 	if n <= 1 {
 		w, _ := t.members.Pop()
 		t.ch <- w
-		return nil
+		return
 	}
 
 	var wg sync.WaitGroup
@@ -67,8 +66,6 @@ func (t *tournament) Solve() interface{} {
 	fmt.Print("==========\n")
 
 	t.Solve()
-
-	return nil
 }
 
 func (t *tournament) processMembersPair() string {
